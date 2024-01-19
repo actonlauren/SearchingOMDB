@@ -9,9 +9,9 @@
             _client = client;
         }
 
-        public async Task<string> GetMovieInfo()
+        public async Task<string> GetMovieInfo(string userInput)
         {
-            var httpResponseMessage = await _client.GetAsync("/?i=tt3896198&apikey=6bc4999");
+            var httpResponseMessage = await _client.GetAsync("{userInput}");
             if (httpResponseMessage.IsSuccessStatusCode)
             {
                 var movieInfo = await httpResponseMessage.Content.ReadFromJsonAsync<MovieInfo>();

@@ -13,7 +13,7 @@ namespace SearchingOMDB
             
             builder.Services.AddHttpClient<MovieService>(client =>
             {
-                client.BaseAddress = new Uri("https://www.omdbapi.com/");
+                client.BaseAddress = new Uri("https://www.omdbapi.com/?apikey=6bc4999&t=");
             });
             var app = builder.Build();
 
