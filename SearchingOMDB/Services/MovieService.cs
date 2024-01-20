@@ -1,4 +1,6 @@
-﻿namespace SearchingOMDB.Services
+﻿using SearchingOMDB.Models;
+
+namespace SearchingOMDB.Services
 {
     public class MovieService
     {
@@ -9,14 +11,14 @@
             _client = client;
         }
 
-        public async Task<string> GetMovieInfo(string userInput)
+        public async Task<MovieViewModel> GetMovieInfo(string userInput)
         {
-            var httpResponseMessage = await _client.GetAsync("{userInput}");
+            var httpResponseMessage = await _client.GetAsync($"?apikey=6bc4999&t={userInput}");
             if (httpResponseMessage.IsSuccessStatusCode)
             {
-                var movieInfo = await httpResponseMessage.Content.ReadFromJsonAsync<MovieInfo>();
+                var movieInfo = await httpResponseMessage.Content.ReadFromJsonAsync<MovieViewModel>();
 
-                return movieInfo.message;
+                return movieInfo;
             }
             else
             {

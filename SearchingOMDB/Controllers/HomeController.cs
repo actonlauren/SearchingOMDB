@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SearchingOMDB.Models;
+using SearchingOMDB.Services;
 using System.Diagnostics;
 
 namespace SearchingOMDB.Controllers
@@ -7,10 +8,12 @@ namespace SearchingOMDB.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly MovieService MovieService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MovieService movieService)
         {
             _logger = logger;
+            MovieService = movieService;
         }
 
         public IActionResult Index()
@@ -21,24 +24,26 @@ namespace SearchingOMDB.Controllers
         public IActionResult Privacy()
         {
             return View();
-        }
+        }       
         
-        public IActionResult MovieSearch()
+
+        public IActionResult MovieSearch(MovieViewModel model)
         {
-               return View();
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult MovieSearchForm(string userTitle)
+        public IActionResult MovieSearchForm()
         {
-            return View(MovieSearch);
+            return View("MovieSearch");
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult MovieSearchResults()
+        public async Task<IActionResult>  MovieSearchResults(string title)
         {
-            return View(MovieSearch);
+            var movieInfo = await MovieService.GetMovieInfo(title);            
+            return View("MovieSearch", movieInfo);
         }
 
 
