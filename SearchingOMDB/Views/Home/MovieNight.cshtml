@@ -1,0 +1,40 @@
+﻿@model List<SearchingOMDB.Models.MovieViewModel>
+
+@{
+    ViewData["Title"] = "MovieNight";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>MovieNight</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4"> 
+        @using (Html.BeginForm("MovieNightResults", "Home", FormMethod.Post))
+        {
+            <input type="text" name="Title1" placeholder="Title One" /><br />
+            <input type="text" name="Title2" placeholder="Title Two"/><br />
+            <input type="text" name="Title3" placeholder="Title Three"/><br />
+            <input type="submit" value="Submit" />
+        }
+    </div>
+</div>
+@if (Model != null && Model.Any())
+{
+    foreach (var movie in Model)
+    {
+        <h1>@movie.Title</h1>
+        <h2>@movie.Released</h2>
+        <h2>@movie.Genre</h2>
+        <h2>@movie.Rated</h2>
+        <h2>@movie.Runtime</h2>
+        <h2>@movie.Director</h2>
+        <h2>@movie.Writer</h2>
+        <img src="@movie.Poster" />
+    }
+
+}
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
